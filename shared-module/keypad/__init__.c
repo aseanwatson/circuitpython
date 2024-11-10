@@ -140,8 +140,29 @@ void keypad_never_reset(keypad_scanner_obj_t *self) {
 void common_hal_keypad_generic_reset(void *self_in) {
     keypad_scanner_obj_t *self = self_in;
     size_t key_count = common_hal_keypad_generic_get_key_count(self);
-    memset(self->debounce_counter, self->debounce_threshold, key_count);
+
+    // reset debounce state to 0
+    memset(self->debounce_counter, 0, key_count);
+
+    // make a single pass to set debounce_counter to +1 or -1
     keypad_scan_now(self, port_get_raw_ticks(NULL));
+
+    // get the current time
+    mp_obj_t timestamp = supervisor_ticks_ms();
+
+    // loop through keys and queue a pressed/released event
+    // based on the reading from the one pass.
+    for (mp_uint_t key_number = 0; key_number < key_count; key_number++) {
+        if (self->debounce_counter[key_number] > 0) {
+            // remember that we are sending an event so "saturate" the debounce_counter
+            self->debounce_counter[key_number] = self->debounce_threshold;
+            keypad_eventqueue_record(self->events, key_number, true, timestamp);
+        } else if (self->debounce_counter[key_number] < 0) {
+            // remember that we are sending an event so "saturate" the debounce_counter
+            self->debounce_counter[key_number] = -self->debounce_threshold;
+            keypad_eventqueue_record(self->events, key_number, false, timestamp);
+        }
+    }
 }
 
 void common_hal_keypad_deinit_core(void *self_in) {
