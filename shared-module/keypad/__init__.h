@@ -45,3 +45,4 @@ void keypad_never_reset(keypad_scanner_obj_t *self);
 
 size_t common_hal_keypad_generic_get_key_count(void *scanner);
 void common_hal_keypad_deinit_core(void *scanner);
+int8_t keypad_get_key_debounce_counter(void *self, mp_uint_t key_number);

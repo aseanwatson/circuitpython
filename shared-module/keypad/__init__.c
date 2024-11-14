@@ -144,6 +144,11 @@ void common_hal_keypad_generic_reset(void *self_in) {
     keypad_scan_now(self, port_get_raw_ticks(NULL));
 }
 
+int8_t keypad_get_key_debounce_counter(void *self_in, mp_uint_t key_number) {
+    keypad_scanner_obj_t* self = self_in;
+    return self->debounce_counter[key_number];
+}
+
 void common_hal_keypad_deinit_core(void *self_in) {
     keypad_scanner_obj_t *self = self_in;
     self->events = NULL;

@@ -216,6 +216,10 @@ static mp_obj_t keypad_keymatrix_row_column_to_key_number(mp_obj_t self_in, mp_o
 }
 MP_DEFINE_CONST_FUN_OBJ_3(keypad_keymatrix_row_column_to_key_number_obj, keypad_keymatrix_row_column_to_key_number);
 
+//|     def is_key_pressed(self, key_number: int) -> bool:
+//|         """Returns True if the key has been pressed; False if the key is released."""
+//|         ...
+
 //|     events: EventQueue
 //|     """The `EventQueue` associated with this `Keys` object. (read-only)
 //|     """
@@ -231,6 +235,7 @@ static const mp_rom_map_elem_t keypad_keymatrix_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_reset),                    MP_ROM_PTR(&keypad_generic_reset_obj) },
     { MP_ROM_QSTR(MP_QSTR_key_number_to_row_column), MP_ROM_PTR(&keypad_keymatrix_key_number_to_row_column_obj) },
     { MP_ROM_QSTR(MP_QSTR_row_column_to_key_number), MP_ROM_PTR(&keypad_keymatrix_row_column_to_key_number_obj) },
+    { MP_ROM_QSTR(MP_QSTR_is_key_pressed),           MP_ROM_PTR(&keypad_generic_is_key_pressed_obj) },
 };
 
 static MP_DEFINE_CONST_DICT(keypad_keymatrix_locals_dict, keypad_keymatrix_locals_dict_table);

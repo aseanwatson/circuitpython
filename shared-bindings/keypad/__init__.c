@@ -51,6 +51,34 @@ MP_DEFINE_CONST_FUN_OBJ_1(keypad_generic_get_events_obj, keypad_generic_get_even
 MP_PROPERTY_GETTER(keypad_generic_events_obj,
     (mp_obj_t)&keypad_generic_get_events_obj);
 
+static mp_obj_t keypad_generic_is_key_pressed(mp_obj_t self_in, mp_obj_t key_number) {
+    keypad_keymatrix_obj_t *self = MP_OBJ_TO_PTR(self_in);
+    check_for_deinit(self);
+    mp_int_t key = mp_obj_get_int(key_number);
+    mp_int_t key_count = common_hal_keypad_generic_get_key_count(self);
+    mp_arg_validate_index_range(
+        key,
+        0,
+        key_count - 1,
+        MP_QSTR_key_number);
+    int8_t counter = keypad_get_key_debounce_counter(self, key);
+
+    if (counter < 0) {
+        return mp_const_false;
+    }
+
+    // The debounce counter is never 0.  If the key is pressed and the
+    // value is -1, it will bump up to debounce_threshold rather than 0.
+    // Similarly, if the value is 1 and the key is not pressed, the state will
+    // drop to -debounce_threshold.
+    //
+    // The constructor initializes the counters to 0, but then does a scan so
+    // it'll either be 1 or -1 after that. So don't bother checking for 0; assume if
+    // it's not negative that it must be positive.
+    return mp_const_true;
+}
+MP_DEFINE_CONST_FUN_OBJ_2(keypad_generic_is_key_pressed_obj, keypad_generic_is_key_pressed);
+
 //| """Support for scanning keys and key matrices
 //|
 //| The `keypad` module provides native support to scan sets of keys or buttons,

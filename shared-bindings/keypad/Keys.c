@@ -150,6 +150,10 @@ static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(keypad_keys___exit___obj, 4, 4, keypa
 //|         """
 //|         ...
 
+//|     def is_key_pressed(self, key_number: int) -> bool:
+//|         """Returns True if the key has been pressed; False if the key is released."""
+//|         ...
+
 //|     key_count: int
 //|     """The number of keys that are being scanned. (read-only)
 //|     """
@@ -159,13 +163,14 @@ static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(keypad_keys___exit___obj, 4, 4, keypa
 //|     """
 //|
 static const mp_rom_map_elem_t keypad_keys_locals_dict_table[] = {
-    { MP_ROM_QSTR(MP_QSTR_deinit),       MP_ROM_PTR(&keypad_keys_deinit_obj) },
-    { MP_ROM_QSTR(MP_QSTR___enter__),    MP_ROM_PTR(&default___enter___obj) },
-    { MP_ROM_QSTR(MP_QSTR___exit__),     MP_ROM_PTR(&keypad_keys___exit___obj) },
+    { MP_ROM_QSTR(MP_QSTR_deinit),         MP_ROM_PTR(&keypad_keys_deinit_obj) },
+    { MP_ROM_QSTR(MP_QSTR___enter__),      MP_ROM_PTR(&default___enter___obj) },
+    { MP_ROM_QSTR(MP_QSTR___exit__),       MP_ROM_PTR(&keypad_keys___exit___obj) },
 
-    { MP_ROM_QSTR(MP_QSTR_events),       MP_ROM_PTR(&keypad_generic_events_obj) },
-    { MP_ROM_QSTR(MP_QSTR_key_count),    MP_ROM_PTR(&keypad_generic_key_count_obj) },
-    { MP_ROM_QSTR(MP_QSTR_reset),        MP_ROM_PTR(&keypad_generic_reset_obj) },
+    { MP_ROM_QSTR(MP_QSTR_events),         MP_ROM_PTR(&keypad_generic_events_obj) },
+    { MP_ROM_QSTR(MP_QSTR_key_count),      MP_ROM_PTR(&keypad_generic_key_count_obj) },
+    { MP_ROM_QSTR(MP_QSTR_reset),          MP_ROM_PTR(&keypad_generic_reset_obj) },
+    { MP_ROM_QSTR(MP_QSTR_is_key_pressed), MP_ROM_PTR(&keypad_generic_is_key_pressed_obj) },
 };
 
 static MP_DEFINE_CONST_DICT(keypad_keys_locals_dict, keypad_keys_locals_dict_table);
